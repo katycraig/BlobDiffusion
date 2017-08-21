@@ -95,88 +95,50 @@
 
 \setcounter{tocdepth}{1}
 
-\title{A Regularized Particle Method For (Degenerate) Diffusion}
+\title{A Blob Method For Linear and Nonlinear Diffusion}
 
 \begin{document}
 \maketitle 
 
-
-\section*{Outline}
-\noindent {\color{red} Red} indicates still need to prove. {\color{blue} Blue} indicates would be nice to prove. \\
-
-\begin{enumerate}[1)]
-\item Introduction
-\item Preliminaries
-\begin{itemize}
-\item convolution of measures
-\item Wasserstein metric
-\end{itemize}
-\item Regularized internal energies
-\begin{itemize}
-\item proper $m \geq $/coercive $m >1$
-\item inequalities relating regularized entropies to unregularized entropies
-\item regularized entropies are lower s cts w.r.t weak-* convergence (\textcolor{red}{$m=1$} and $m>1$)
-\item differentiability
-\item \textcolor{red}{characterization of subdifferential}
-\item convexity when $m\geq2$ {\color{blue} improved convexity along smooth densities (no dependence on $\epsilon$)}
-\end{itemize}
-\item Gamma convergence of regularized entropies, $m \geq 1$
-\begin{itemize}
-\item liminf / limsup inequalities for $1\leq m < +\infty$
-\item when in the presence of a confinting drift (or interaction) potential...
-\begin{itemize}
-\item existence of minimizers for all $\e \geq 0$. (still need to do \textcolor{red}{m=1})
-\item convergence of minimizers as $\e \to 0$. (still need to do \textcolor{red}{m=1})
-\end{itemize}
-\end{itemize}
-\item Properties of gradient flows, $m \geq 2$
-\begin{itemize}
-\item \textcolor{red}{By AGS theory and convexity for $m \geq 2$, there exist unique solutions of the gradient flow}
-\item \textcolor{red}{By characterization of subdifferential, solutions of continuity equation with $v = \grad \frac{\partial E_\e}{\partial \rho}$ are gradient flows}
-\item \textcolor{red}{Corollary: solutions of ODE system are solutions of gradient flows with particle initial data}
-\end{itemize}
-\item {\color{blue} Gamma convergence of gradient flows (under some strong assumptions)}
-\begin{itemize}
-\item {\color{red} when $m=2$ we can use convexity of regularized entropy to extend Lions-MasGallic's result to more general initial data, i.e. not just initial data with bounded entropy}
-\item {\color{blue} liminf/limsup under some strong assumptions}
-\item {\color{blue} compactness?}
-\end{itemize}
-\item Details of numerical method (details of time discretization, etc.)
-\item Numerical results
-\begin{itemize}
-\item diffusion (m=1) and degenerate diffusion (m=2 and one choice of $m>2$) (though we should emphasize that our method performs best on ``attractive'' problems, otherwise the particle spacing gets too big for epsilon)
-\begin{itemize}
-\item qualitative properties
-\item comparison with exact solutions in dimensions 1 and 2
-\item scaling of error in dimensions 1 and 2 for some choice of epsilon and N (okay if epsilon/N scaling is not ``optimal'' and okay 2D error is not W2)
-\item does the choice of mollifier matter, or not?
-\end{itemize}
-\item fokker planck with attractive velocity field and diffusion (m=1)/degenerate diffusion (m=2 and one choice of $m>2$)
-\begin{itemize}
-\item qualitative properties
-\item comparison with exact solutions in dimensions 1 and 2
-\item scaling of error in dimensions 1 and 2
-\end{itemize}
-\item  Keller-Segel 2D (and maybe a little 1D)
-\begin{itemize}
-\item linear growth/decay of second moment
-\item energy decreasing
-\item critical mass is correct (does adding a confining potential help us study critical mass in the spreading case?)
-\item critical diffusion exponent is correct
-\end{itemize}
-\end{itemize}
-\end{enumerate}
-
-\newpage
-
- %\tableofcontents
+\tableofcontents
  
 \begin{abstract}
-We derive a new particle method for linear and nonlinear diffusive gradient flows. This method is essentially based on the regularization of the Wasserstein internal energy through the convolution with a specific class of mollifiers. The resulting regularized energy is finite on the whole space of probability measures, thus including Dirac masses. This energy being of a new form (similar to an interaction energy, up to the composition with a nondecreasing function), we characterize its subdifferential and we prove basic properties such as lower semicontinuity, differentiability and convexity. This enables us to prove that the regularized gradient flow is well-posed when the diffusion is at least quadratic, and that the regularized energy $\Gamma$-converges to the original internal energy. When the diffusion is at least quadratic and under reasonable regularity assumptions on the regularized gradient flow, we show that it converges to the original diffusion equation using Serfaty's result on the convergence of gradient flows in metric spaces. The final numerical scheme is then obtained by solving an ODE system whose solutions are shown to be solutions to the regularized gradient flow with Dirac masses as initial data. We provide error plots and numerical simulations illustrating the behaviour of this particle method in test cases such as the heat and porous medium equations, and we recover critical properties of the Keller--Segel equation in one and two space dimensions by adding an interaction term to the energy.
-\end{abstract}
+As a counterpoint to classical stochastic particle methods for diffusion, we develop a deterministic particle method for linear and nonlinear diffusion. At first glance, deterministic particle methods are incompatible with diffusive partial differential equations, since particle initial data is smoothed instantaneously, so particles do not remain particles. Inspired by classical vortex blob methods, we introduce a nonlocal regularization of our velocity field for which particles do remain particles and apply this to develop a numerical blob method for a range of diffusive partial differential equations of Wasserstein gradient flow structure, including the heat equation, the porous medium equation, the Fokker-Planck equation, and the Keller-Segel equation. Our choice of regularization is guided by this gradient flow structure, and the corresponding regularized energy has a novel form, combining aspects of the well-known interaction and potential energies.
+In the presence of a confining drift or interaction potential, we prove that minimizers of the regularized energies exist and, as the regularization is removed, converge to the minimizers of the unregularized energy. We then restrict our attention to nonlinear diffusion of porous medium type, with at least quadratic diffusion. Under sufficient regularity assumptions, we prove that gradient flows of the regularized energies $\Gamma$-converge to solutions of the porous medium equation, and as a corollary, we obtain convergence of our numerical blob method. We conclude by considering a range of numerical examples that demonstrate our method's superlinear rate of convergence to exact solutions and illustrate key qualitative properties, including asymptotic behavior of the Fokker-Planck equation and critical mass two dimensional Keller-Segel equation.
 
+
+
+% This method is essentially based on the regularization of the Wasserstein internal energy through the convolution with a specific class of mollifiers. The resulting regularized energy is finite on the whole space of probability measures, thus including Dirac masses. This energy being of a new form (similar to an interaction energy, up to the composition with a nondecreasing function), we characterize its subdifferential and we prove basic properties such as lower semicontinuity, differentiability and convexity. This enables us to prove that the regularized gradient flow is well-posed when the diffusion is at least quadratic, and that the regularized energy $\Gamma$-converges to the original internal energy. When the diffusion is at least quadratic and under reasonable regularity assumptions on the regularized gradient flow, we show that it converges to the original diffusion equation using Serfaty's result on the convergence of gradient flows in metric spaces. The final numerical scheme is then obtained by solving an ODE system whose solutions are shown to be solutions to the regularized gradient flow with Dirac masses as initial data. We provide error plots and numerical simulations illustrating the behaviour of this particle method in test cases such as the heat and porous medium equations, and we recover critical properties of the Keller--Segel equation in one and two space dimensions by adding an interaction term to the energy.
+\end{abstract}
+\newpage
+\textcolor{red}{To Do List
+\begin{enumerate}
+\item Finish proof of Lemma \ref{lscm1} (F, August 15)
+\item Finish proof of Proposition \ref{subdiffchar} (F, August 18)
+\item Prove Proposition \ref{wellposedness} (F, August 22)
+\item Prove Proposition \ref{characterizationGF} (F, August 22)
+\item Fix Corollary \ref{particles well posed} (F, August 25)
+\item Prove Proposition \ref{minimizersexist} for $m=1$ (K, August 22)
+\item Prove Theorem \ref{minimizers converge theorem} for $m=1$ (K, August 25)
+\item Write Remark \ref{justifyassumptions} (K, August 25)
+\item Write Section \ref{numericalmethod} explaining numerical method (K, August 18)
+\item Write Section \ref{simulations} explaining simulations (K, August 18)
+\item Finish 2D Keller-Segel Simulations (K, August 15)
+\item Read through draft and fill in remaining gaps (F\&K, August 29)
+\item Finish Writing Introduction and Abstract (F\&K, August 29)
+\end{enumerate}}
 
 \section{Introduction}
+\textcolor{red}{Outline}
+\begin{itemize}
+\item A regularized particle method for diffusion and degenerate diffusion
+\item Our approach is inspired by vortex blob methods, which regularize the velocity field of an equation and then apply a Lagrangian scheme. Originally developed for the Euler equations, blob methods have seen renewed interest in recent years due to their utility for a range of nonlocal partial differential equations.
+\item Previous work (don't forget Andy Bernoff)
+\item Definition of regularized energies and overview of numerical method
+\item Benefits of our approach
+\end{itemize}
+
+
 We introduce a new particle method for gradient flows involving linear and nonlinear diffusion. This method is based on a specific regularization of the internal energy via a smooth mollifier, enabling us to define a regularized internal energy which is well-defined on Borel probability measures which are not necessarily absolutely continuous with respect to the Lebesgue measure, and in fact on all Borel probability measures. This approach gives rise to a regularized gradient flow, that is, the gradient flow for the regularized internal energy, which, when restricted to convex combinations of Dirac measures, defines a discretized-regularized gradient flow on Euclidean space.
 
 The diffusion equations in which we are interested are the continuity equations of the form
@@ -233,24 +195,63 @@ where
 \bes
 	v_\e = - \grad \left(F\circ (\varphi_\e * \mu)\right) - \grad\varphi_\e * \left(\mu F'\circ(\varphi_\e*\mu)\right).
 \ees
-
-\comment{Give the discretized-regularized gradient flow here, as well as the particle method.}
+\textcolor{red}{Outline}
+\begin{itemize}
+\item Give the discretized-regularized gradient flow here, as well as the particle method
+\item Point out that a particle method is a natural choice for equations of Wasserstein gradient flow type (Dirac mass approxiation AND easy for drift/interaction potentials), along with all the benefits of particle methods.
+\item emphasize that our method performs best on ``attractive'' problems, otherwise the particle spacing gets too big for epsilon
+\end{itemize}
 
 \comment{Give here main results of the paper.}
 
 \comment{Give here structure of the paper.}
-
+\begin{enumerate}[1)]
+\item Introduction
+\item Preliminaries
 \begin{itemize}
-\item A regularized particle method for diffusion and degenerate diffusion
-\item Previous work
-\item Definition of regularized energies and overview of numerical method
-\item Benefits of our approach
-\item Future work
+\item convolution of measures
+\item Wasserstein metric
+\end{itemize}
+\item Regularized internal energies
+\begin{itemize}
+\item proper $m \geq 1$
+\item inequalities relating regularized entropies to unregularized entropies
+\item regularized entropies are lsc w.r.t weak-* convergence ($m>1$) and $W_2$ convergence ($m=1$)
+\item differentiability
+\item characterization of subdifferential
+\item convexity when $m\geq2$
+\end{itemize}
+\item Gamma convergence of regularized entropies, $m \geq 1$
+\begin{itemize}
+\item liminf / limsup inequalities for $1\leq m < +\infty$
+\item when in the presence of a confinting drift or interaction potential...
+\begin{itemize}
+\item existence of minimizers for all $\e \geq 0$.
+\item convergence of minimizers as $\e \to 0$.
+\end{itemize}
+\end{itemize}
+\item Properties of gradient flows, $m \geq 2$
+\begin{itemize}
+\item \textcolor{red}{By AGS theory and convexity for $m \geq 2$, there exist unique solutions of the gradient flow}
+\item \textcolor{red}{By characterization of subdifferential, solutions of continuity equation with $v = \grad \frac{\partial E_\e}{\partial \rho}$ are gradient flows}
+\item \textcolor{red}{Corollary: solutions of ODE system are solutions of gradient flows with particle initial data}
+\end{itemize}
+\item Gamma convergence of gradient flows (under some strong assumptions, which reduce to previous work by Lions-MasGallic when $m=2$)
+\item Numerics
+\begin{enumerate}[(a)]
+\item Details of numerical method (details of time discretization, etc.)
+\item Numerical results
+\end{enumerate}
+\end{enumerate}
+
+
+
+ Future work
 \begin{itemize}
 \item Gamma convergence of gradient flows (without assumptions)
 \item Quantitative estimates on convergence (especially optimal scaling of epsilon vs N)
 \item Can vortex spreading ideas be used to get  long-time results for diffusive problems?
-\end{itemize}
+\item Other kinetic equations?
 \end{itemize}
 
 \section{Preliminaries}
@@ -302,8 +303,8 @@ We give now useful property of the convolution operator which we use throughout 
 
 \subsection{Mollifiers}
 In what follows, we consider a mollifier $\varphi$ that satisfies the following assumption.
-\begin{hyp} \label{mollifierAssumption}
-$\varphi\colon\Rd \to [0,\infty)$ satisfies $\varphi = \zeta * \zeta$ for a Schwartz class function $\zeta: \Rd \to [0,\infty)$, with $\zeta(-x) = \zeta(x)$ for all $x\in\Rd$ and $\int \zeta = 1$.  \end{hyp}
+\begin{as} \label{mollifierAssumption}
+$\varphi\colon\Rd \to [0,\infty)$ satisfies $\varphi = \zeta * \zeta$ for a Schwartz class function $\zeta: \Rd \to [0,\infty)$, with $\zeta(-x) = \zeta(x)$ for all $x\in\Rd$ and $\int \zeta = 1$.  \end{as}
 Note that this hypothesis is verified by typical Gaussian mollifiers, and any $\varphi$ satisfying the above hypothesis has finite first moment. For any $\epsilon >0$, we write $\varphi_\e =  \e^{-d} \varphi (\cdot/\e)$ and $\zeta_\e = \e^{-d} \zeta(\cdot/\e)$.
 
 \begin{remark}
@@ -481,40 +482,40 @@ holds in the sense of distributions on $(0,\infty)\times\R^d$.
 
 \section{Regularized internal energies}
 We consider internal energies and their regularization by convolution with a mollifier $\varphi_\e(x)$.
-\begin{defi}[regularized internal energies] \label{energy def}
+\begin{defi}[internal energies] \label{energy def} Given $F:\Rd \to \R$ increasing, lower semicontinuous, and {\color{Aquamarine} a few other assumptions}, we define the internal energies and regularized internal energies by
 \begin{align}
  \label{eq:energy}
 	\F(\mu) = \begin{cases} \int F(\mu) \,d\mu & \mbox{if $\mu \ll \mathcal{L}^d$,} \\ +\infty & \mbox{otherwise,} \end{cases} \quad  \F_\e(\mu) =  \int F(\varphi_\e * \mu) \, d\mu ,
 \end{align}
-We will often consider the energies in (\ref{eq:energy}) jointly, referring to them as $\F_\e$ for $\e \geq 0$.	
-{\color{Aquamarine} State hypotheses on $F$. For simplicity, I have done everything for $F(s) = \log(s)$ and $F(s) = \frac{1}{m-1} s^{m-1}$ for $m > 1$. I think most of these results hold for general internal energies. Feel free to adapt the proofs to that level of generality if you think that would be better. We still need to state what conditions ensure that the regularized entropy is well defined for $m=1$. I think finite second moment is enough.}
+for any fixed $\varphi_\e$ satisfying assumption \ref{mollifierAssumption} and $\epsilon >0$.
 \end{defi}
+We refer to the energies in (\ref{eq:energy}) jointly  as $\F_\e$ for $\e \geq 0$.
 
 \begin{remark}[proper]
-Note that for all $\mu \in \P(\Rd)$, $F_\e(\mu) <+\infty$. This is a consequence of the fact that $F(s)$ is increasing and $\|\varphi_\e*\mu\|_\infty \leq \|\varphi_\e\|_\infty$, so $\F_\e(\mu) = \int F(\varphi_\e*\mu) d\mu \leq F(\|\varphi_\e\|_\infty) < +\infty$.
+Note that for all $\mu \in \P(\Rd)$ and $\epsilon >0$, $F_\e(\mu) <+\infty$. In particular, since $F(s)$ is increasing and $\|\varphi_\e*\mu\|_\infty \leq \|\varphi_\e\|_\infty$, we have $\F_\e(\mu) = \int F(\varphi_\e*\mu) d\mu \leq F(\|\varphi_\e\|_\infty) < +\infty$.
 \end{remark}
 
-\begin{remark}[coercive]
-{\color{Aquamarine} Explain why/under what conditions $\F_\e$ is coercive. This is immediate for $m > 1$, sinc it is bounded below. For $m=1$, it should still be true for $\mu$ with finite second moment. }
-\end{remark}
-
-In the following results, we will often distinguish between two cases: $1 \leq m \leq 2$ and $m >2$. In the former, $F(s)$ is concave, and since a concave function lies below its tangent line, we have for all $x,y >0$,
-\begin{align} \label{tangent line concave} 
-\begin{cases} \log(y) - \log(x) \geq (y-x) y^{-1} &\text{ for } m=1 , \qquad \qquad \qquad \\
-y^{m-1} - x^{m-1}  \ \ \geq (m-1)(y-x) y^{m-2} &\text{ for }1 \leq m \leq 2. \end{cases}
-\end{align}
-Likewise, when $m>2$, $F(s)$ is convex, and since a convex function lies above its tangent line, for all $x,y >0$,
-\begin{align} \label{tangent line convex} 
-y^{m-1} - x^{m-1} \geq (m-1)(y-x) x^{m-2} &\text{ for }m\geq2. 
-\end{align}
-
-{\color{Aquamarine}  \begin{remark}
+{\color{Aquamarine}  \begin{remark} \label{novelstructure}
 Emphasize that our regularized energies have a novel structure -- sort of a blend of interaction and internal energies -- fall outside the scope of existing theory. See later section for existence/uniqueness of gradient flows of these energies.
 \end{remark}}
 
-{\color{Aquamarine}  \begin{remark}
+
+{\color{Aquamarine}  \begin{remark} \label{whyconvolution}
 Explain why we leave a $\mu$ hanging out of the convolution, as it would be more similar to previous work, including Craig/Topalogu, if we mollified ``all of'' $\mu$. (It's so we don't have to compute a convolution at every step of the numerical method.)
 \end{remark}}
+
+%In the following results, we will often distinguish between two cases: $1 \leq m \leq 2$ and $m >2$. In the former, $F(s)$ is concave, and since a concave function lies below its tangent line, we have for all $x,y >0$,
+%\begin{align} \label{tangent line concave} 
+%\begin{cases} \log(y) - \log(x) \geq (y-x) y^{-1} &\text{ for } m=1 , \qquad \qquad \qquad \\
+%y^{m-1} - x^{m-1}  \ \ \geq (m-1)(y-x) y^{m-2} &\text{ for }1 \leq m \leq 2. \end{cases}
+%\end{align}
+%Likewise, when $m>2$, $F(s)$ is convex, and since a convex function lies above its tangent line, for all $x,y >0$,
+%\begin{align} \label{tangent line convex} 
+%y^{m-1} - x^{m-1} \geq (m-1)(y-x) x^{m-2} &\text{ for }m\geq2. 
+%\end{align}
+
+
+
 
 We have the following inequalities relating the energy and its regularization.
 
@@ -528,9 +529,9 @@ where $C_\e= C_\e(m,\mu)  \to 0$ as $\e \to 0$. For $m \leq 2$, we have
  \F^m_\e(\mu) \leq \F^m(\zeta_\e*\mu) .
  \end{align}
  Furthermore, we have the following lower bounds on the regularized energies:
- \begin{align} \label{lower bounds}  \F^m_\e(\mu)  \geq  \begin{cases} (2\pi/\delta)^{d/2} - \delta M_2(\zeta_\e*\mu) &\text{ if } m =1, \\ 0 &\text{ if } m>1 ,\end{cases} 
+ \begin{align} \label{lower bounds}  \F^m_\e(\mu)  \geq  \begin{cases} \textcolor{red}{-} (2\pi/\delta)^{d/2} - \delta (M_2(\mu)+ M_2(\varphi_\e)) &\text{ if } m =1, \\ 0 &\text{ if } m>1 ,\end{cases} 
  \end{align}
- where the first bound holds for all $\delta >0$ and $M_2(\zeta_\e*\mu) = \int |x|^2 d\zeta_\e *\mu$ is the second moment of the regularized measure.
+ where the first bound holds for all $\delta >0$ and $M_2(\nu)$ denotes the second moment of a measure $\nu$, $\int |x|^2 d \nu(x)$. \textcolor{red}{I think there should be a negative sign in front of $(2\pi/\delta)^{d/2}$, correct?}
 \end{prop}
 
 \begin{proof}
@@ -564,13 +565,15 @@ Consequently,
 
 Now, we show (\ref{relative sizes equation 2}). Since $F(s)$ is convex, this is simply a consequence of reversing the inequalities in (\ref{rel size ineq1}) and (\ref{rel size ineq2}).
 
-The lower bound (\ref{lower bounds}) are a consequence of \cite[Lemma 4.1]{CPSW} when $m =1$ and the fact that $F(s) = \frac{1}{m-1}s^{m-1} \geq 0$ when $m >1$.
+Finally, we consider the lower bounds (\ref{lower bounds}). When $m=1$, these follow from inequality (\ref{relative sizes equation}), \cite[Lemma 4.1]{CPSW}, and the fact that
+\[ \int \zeta_\e(y) |x-y|^2 dy = |x|^2 +M_2(\zeta_\e) \implies M_2(\zeta_\e*\mu) = M_2(\mu) + M_2(\zeta_\e) . \]
+For $m>1$, we use the fact that $F(s) = \frac{1}{m-1}s^{m-1} \geq 0$.
 \end{proof}
 
 
 
 \begin{prop}[lower semicontinuity] \label{lower semicontinuity}
-For all $\e >0$, $\F^m_\e$ is lower semicontinuous with respect to weak-* convergence in $\P(\Rd)$.
+For all $\e >0$ and $m > 1$, $\F^m_\e$ is lower semicontinuous with respect to weak-* convergence in $\P(\Rd)$.
 \end{prop}
 \begin{proof}
 Suppose $\mu_n \wsto \mu$. We must show $\liminf_{n \to +\infty} \F^m_\e(\mu_n) \geq \F^m_\e(\mu)$. Without loss of generality, we replace $\mu_n$ by a subsequence which attains the limit on the left hand side, and we may assume that this limit is finite. Consequently, there exists $C>0$ so that 
@@ -588,38 +591,26 @@ We now consider the case when $1 < m \leq 2$. For any $a,b >0$, $|a^{m-1} -b^{m-
 
  Since $\varphi_\e \in C_b(\Rd)$, $\mu_n \wsto \mu$ ensures that $\zeta_\e * \mu_n \to \zeta_\e* \mu \to 0$ pointwise. The integrand of the first term is bounded above by $2\|\zeta_\e\|_\infty^2$, so by the dominated convergence theorem, the first integral converges to zero. Since the integrand of the second term is continuous and bounded by $\|\varphi_\e\|_\infty^{m-1}$, the fact that $\mu_n \wsto \mu$ ensures this second term converges to $\F_\e(\mu)$. This gives the result.
 
- We conclude with the case $m > 2$. Inequality (\ref{lower semicty ineq 0}) ensures that $\F^m_\e(\mu_n) = \|\varphi_\e*\mu_n\|_{L^{m-1}(d \mu_n)} < C$ for all $n \in \mathbb{N}$, so by \cite[Theorem 5.4.4]{AGS}, there exists $v \in L^{m-1}(\mu)$ so that, up to another subsequence, 
- \begin{align} \label{lower semicty ineq 2} \liminf_{n \to +\infty} \|\varphi_\e*\mu_n\|_{L^{m-1}(d \mu_n)} \geq  \|v\|_{L^{m-1}(\mu)} \ \text{ and } \  \int f (\varphi_\e *\mu_n) d \mu_n \to \int f v d \mu,  \ \forall f \in C^\infty_c(\Rd). 
+ We conclude with the case $m > 2$. Inequality (\ref{lower semicty ineq 0}) ensures that $\F^m_\e(\mu_n) = \|\varphi_\e*\mu_n\|_{L^{m-1}(d \mu_n)} < C$ for all $n \in \mathbb{N}$, so by Proposition \ref{AGSthm}, there exists $w \in L^{m-1}(\mu)$ so that, up to another subsequence, 
+ \begin{align} \label{lower semicty ineq 2} \liminf_{n \to +\infty} \|\varphi_\e*\mu_n\|_{L^{m-1}(d \mu_n)} \geq  \|w\|_{L^{m-1}(\mu)} \ \text{ and } \  \int f (\varphi_\e *\mu_n) d \mu_n \to \int f w d \mu,  \ \forall f \in C^\infty_c(\Rd). 
  \end{align}
- It suffices to show that $v \geq \varphi_\e*\mu$ $\mu$-almost everywhere. Then, the first inequality in (\ref{lower semicty ineq 2}) gives
- \[ \liminf_{n \to +\infty} \F^m_\e(\mu_n) = \liminf_{n \to +\infty} \|\varphi_\e*\mu_n\|_{L^{m-1}(d \mu_n)} \geq  \|v\|_{L^{m-1}(\mu)} \geq \|\varphi_\e*\mu \|_{L^{m-1}(\mu)} = \F_\e^m(\mu) . \]
+ It suffices to show that $w \geq \varphi_\e*\mu$ $\mu$-almost everywhere. Then, the first inequality in (\ref{lower semicty ineq 2}) gives
+ \[ \liminf_{n \to +\infty} \F^m_\e(\mu_n) = \liminf_{n \to +\infty} \|\varphi_\e*\mu_n\|_{L^{m-1}(d \mu_n)} \geq  \|w\|_{L^{m-1}(\mu)} \geq \|\varphi_\e*\mu \|_{L^{m-1}(\mu)} = \F_\e^m(\mu) . \]
 
 Since $\mu_n \wsto \mu$ and $f, \zeta_\e \in C_b(\Rd)$, we have $\zeta_\e*( f \mu_n) \to \zeta_\e*( f \mu)$ and $\zeta_\e*\mu_n \to \zeta_\e *\mu$ pointwise.
 Consequently, using that $\varphi_\e = \zeta_\e *\zeta_\e$ and Fatou's lemma, we obtain that for all $f \in C^\infty(\Rd)$, $f \geq 0$, 
 \[ \liminf_{n \to +\infty} \int f (\varphi_\e *\mu_n) d \mu_n = \liminf_{n \to +\infty} \int \zeta_\e*( f \mu_n) \zeta_\e*\mu_n \geq \int \zeta_\e *(f \mu) \zeta_\e *\mu = \int f \varphi_\e* \mu d \mu .\]
 Combining this with the second inequality in (\ref{lower semicty ineq 2}) gives
-\[ \int f v d \mu \geq \int f \varphi_\e* \mu d \mu \quad \text{ for all } f \in C^\infty(\Rd), f \geq 0 .\]
+\[ \int f w d \mu \geq \int f \varphi_\e* \mu d \mu \quad \text{ for all } f \in C^\infty(\Rd), \quad f \geq 0 .\]
 Therefore, $v \geq \varphi_\e* \mu$ $\mu$-almost everywhere, which gives the result.
- \kcomment{Since \cite[Theorem 5.4.4]{AGS} plays a key role both here and in the $\Gamma$-convergence proof, it might make sense to recall its statement in the preliminaries section.}
- 
-\comment{$m=1$?}
-Define the functional 
-\bes	
-	\tilde{\F}_\e^m(\mu) = \int_{\Rd} \frac{(\varphi_\e*\mu(x))^{m-1}-1}{m-1} \,d\mu(x) = \F_\e^m(\mu) - \frac{1}{m-1} \quad \mbox{for all $\mu\in\P_2(\Rd)$}.
-\ees
-Let $(m_k)_k$ be a sequence of numbers in $(1,\infty)$ such that $m_k \to 1$ as $k\to\infty$. By lower semicontinuity of $\F_\e^{m_k}$ for all $k\in\N$, we know that $\tilde{\F}_\e^{m_k}$ is also lower semicontinuous so that
-\bes
-	\liminf_{n\to\infty}\tilde{\F}_\e^{m_k}(\mu_n) \geq \tilde{\F}_\e^{m_k}(\mu).
-\ees
-By boundedness of $\varphi_\e*\mu$ the dominated Lebesgue theorem gives that $\tilde{\F}_\e^{m_k}(\mu) \to \F_\e^1(\mu)$ as $k\to\infty$. Hence
-\bes	
-\liminf_{k\to\infty}\liminf_{n\to\infty}\tilde{\F}_\e^{m_k}(\mu_n) \geq \F_\e^1(\mu).
-\ees
-\comment{If the liminf operators can be swapped}, then 
-\bes
-\liminf_{n\to\infty}\liminf_{k\to\infty}\tilde{\F}_\e^{m_k}(\mu_n) = \liminf_{n\to\infty} \F_\e^1(\mu_n) \geq \F_\e^1(\mu),
-\ees
-which the result.
+\end{proof}
+
+\begin{prop} \label{lscm1}
+For all $\e >0$, $\F^1_\e$ is lower semicontinuous with respect to Wasserstein in $\P_2(\Rd)$.
+\end{prop}
+
+\begin{proof}
+\textcolor{red}{Insert  proof}
 \end{proof}
 
 \begin{lem}[differentiability] \label{diff lem}
@@ -960,9 +951,6 @@ This gives the result.
 %\end{proof}
 
 
-\begin{remark} \kcomment{Need to adapt this comment to new version of lemma.}
-Note that if $\lambda = 0$ in Proposition \ref{thm:conv}, then $\F$ is convex on all of $\P_2(\R^d)$. Also, if $F'\in L^\infty(\R)$, then $\lambda_R$ does not depend on $R$ and we get convexity of $\F$ on all of $\P_2(\R^d)$ as well. The latter case happens for instance when $F(x)=x$, which corresponds to the square diffusion.
-\end{remark}
 
 
 
@@ -1056,8 +1044,8 @@ Our assumptions on $V$ ensure that for all $C \geq 0 $, the set $\{ \mu \in \P(\
 
 Since the regularized internal energies $\F_\e(\mu)$ are nonnegative for $m > 1$, the tightness of sublevels described in Remark \ref{sublevel remark} allows us to quickly conclude that minimizers of $ \mathcal{V}_\e(\mu) $ and $\mathcal{W}_\e(\mu)$ exist.
 
-\begin{prop}
-Given $\mathcal{V}_\e$ and $\mathcal{W}_\e$ as in Definition \ref{confined energies},  minimzers of $\mathcal{V}_\e$  and $\mathcal{W}_\e$ over $\P(\Rd)$ exist for all  $\e >0$. \textcolor{red}{I have only proved for $m >1$, where $\F_\e$ is nonnegative. In the case $m=1$, we may want to require that $V$ and $W$ have quadratic growth at infinity to control the second moments of the minimizing sequence.}
+\begin{prop} \label{minimizersexist}
+Given $\mathcal{V}_\e$ and $\mathcal{W}_\e$ as in Definition \ref{confined energies},  minimizers of $\mathcal{V}_\e$  and $\mathcal{W}_\e$ over $\P(\Rd)$ exist for all  $\e >0$. {\color{Aquamarine}  {I have only proved for $m >1$, where $\F_\e$ is nonnegative. In the case $m=1$, we may want to require that $V$ and $W$ have quadratic growth at infinity to control the second moments of the minimizing sequence.}}
 \end{prop}
 
 
@@ -1068,7 +1056,7 @@ Combining Remark \ref{sublevel remark} with the fact that $\F_\e(\mu) \geq 0$ en
 Finally, we conclude that minimizers of $\mathcal{V}_\e$ and $\mathcal{W}_\e$ converge to minimizers of $\mathcal{V}$ and $\mathcal{W}$.
 
 \begin{thm}[minimizers converge to minimizers] \label{minimizers converge theorem}
-Consider a sequence $\{ \mu_\e\}_{\e >0}$. If $ \mu_\e$ is a minimizer of $\mathcal{V}_\e$, then up to a subsequence, $\mu_\e \wsto \mu$, where $\mu$ is a minimizers of $\mathcal{V}$. Likewise, if $\mu_\e$ is a minimizer of $\mathcal{W}_\e$, then up to a subsequence and translation, $\mu_\e \wsto \mu$, where $\mu$ is a minimizers of $\mathcal{W}$. \textcolor{red}{I have only proved for $m>1$, when $\F_\e$ is nonnegative.}
+Consider a sequence $\{ \mu_\e\}_{\e >0}$. If $ \mu_\e$ is a minimizer of $\mathcal{V}_\e$, then up to a subsequence, $\mu_\e \wsto \mu$, where $\mu$ is a minimizers of $\mathcal{V}$. Likewise, if $\mu_\e$ is a minimizer of $\mathcal{W}_\e$, then up to a subsequence and translation, $\mu_\e \wsto \mu$, where $\mu$ is a minimizers of $\mathcal{W}$. {\color{Aquamarine}  {I have only proved for $m>1$, when $\F_\e$ is nonnegative.}}
 \end{thm}
  
  The proof of Theorem \ref{minimizers converge theorem} is classical. We include it for completeness.
@@ -1107,7 +1095,7 @@ for all $\nu \in \P(\Rd)$. Therefore, up to a subsequence, $\mu_\e \wsto \mu$, w
 %\kcomment{This is a consequence of Proposition \ref{Lipschitz estimates} and \cite[Lemma 8.1.6, Proposition 8.1.7, Proposition 8.1.8]{AGS}.}
 %\end{proof}
 
-\begin{prop}
+\begin{prop} \label{wellposedness}
 \textcolor{red}{For any $m\geq 2$ and $\rho_0 \in \P_2(\Rd)$, there exists a unique gradient flow of $\F_\e^m$ with initial data $\rho_0$.}
 \end{prop}
 
@@ -1115,7 +1103,7 @@ for all $\nu \in \P(\Rd)$. Therefore, up to a subsequence, $\mu_\e \wsto \mu$, w
 \textcolor{red}{AGS Theorem 11.1.4.}
 \end{proof}
 
-\begin{prop}
+\begin{prop} \label{characterizationGF}
 \textcolor{red}{$\rho(x,t)$ is a weak solutions of the continuity equation with $v = \grad \frac{\partial \F_\e^m}{\partial \rho}$ if and only if $\rho(x,t)$ is a gradient flow of $\F_\e^m$.}
 \end{prop}
 
@@ -1185,7 +1173,7 @@ Furthermore, assume the following hold for all $t \in [0,T]$,
 where $p_\e = (\varphi_\e *\mu_\e)^{m-2} \mu_\e$. Then $\mu(t)$ is the gradient flow of $\mathcal{F}^m$ with initial data $\mu(0)$, 
 \end{thm}
 
-\begin{remark}
+\begin{remark} \label{justifyassumptions}
 {\color{Aquamarine}  Explain why we need additional assumptions, and explain why they are reasonable. Refer to L-MG, though ours are slightly weaker.} {\color{Aquamarine} Note that we are NOT using finiteness of the subdifferentially -- morally speaking, this is what *should* be giving us the stronger notion of convergence that instead we assume -- but the absolute value signs are in the wrong place }
 
 {\color{Aquamarine} A sufficient condition for (\ref{extra assumptions c}) is...
@@ -1354,10 +1342,73 @@ This completes the proof of equation (\ref{GFgoal1}) and gives the result.
 %\end{proof}
 %
 
-\section{Numerical results}
-%
-%\subsection{The method}
-%
+\section{Numerical Results}
+
+We now apply the blob method for diffusion developed in the previous sections to simulate solutions to a range of partial differential equations of Wasserstein gradient flow type. We begin by describing the details of our numerical scheme and follow with several examples in one and two dimensions that illustrate the rate of convergence and qualitative properties of the method.
+
+\subsection{Numerical method} \label{numericalmethod}
+In the simulations which follow, we will consider partial differential equations of the following form:
+\begin{align} \label{W2PDE}
+\partial_t \rho = \nabla \cdot (\nabla V \rho) + \nabla \cdot ((\nabla W*\rho) \rho) + \Delta \rho^m \qquad V: \Rd \to \R, \quad W: \Rd \to \R , \quad m \geq 1 .
+\end{align}
+Such equations are formally Wasserstein gradient flows of the energy
+\begin{align} \label{W2energy}
+E(\rho) = \begin{cases}
+ \int V \rho + \int (W*\rho) \rho + \frac{1}{m-1} \int \rho^m &\text{ if } \rho \ll \mathcal{L}^d ,\\ +\infty &\text{ otherwise.}
+ \end{cases}
+\end{align}
+This formal relationship can be made rigorous all of the cases we consider, including the heat and porous-medium equations ($V = W =0$), the Fokker-Planck equation ($V$ convex and lower semicontinuous and $W=0$), and the Keller-Segel equation ($V = 0$ and $W = \Delta^{-1}$, the Newtonian potential) {\color{Aquamarine} citations}.
+
+Our blob method for simulating solutions to (\ref{W2PDE}) is a regularized particle method. We begin by regularizing the energy (\ref{W2energy}) by replacing the internal energy term $\frac{1}{m-1} \int \rho^m$ with the regularized internal energy introduced in Definition \ref{energy def}. For $\epsilon >0$,  let $\varphi_\e$ be a gaussian with variance $\epsilon^2$,
+\begin{align} \label{gaussian mollifier num}
+\varphi_\e(x) = \frac{1}{(4\pi \epsilon^2)^{d/2}} e^{-|x|^2/4 \epsilon^2}.
+\end{align}
+The regularized energy is then given by
+\begin{align} \label{regW2energy}
+E_\epsilon(\rho) = \begin{cases}
+ \int V \rho + \int (W*\rho) \rho + \frac{1}{m-1} \int (\varphi_\e *\rho)^{m-1} \rho &\text{ if } \rho \ll \mathcal{L}^d ,\\ +\infty &\text{ otherwise.}
+ \end{cases}
+\end{align}
+(In addition to the Gaussian mollifier (\ref{gaussian mollifier num}), we performed numerical experiments with a range of compactly supported and oscillatory mollifiers. We observed similar results, independent of the choice of mollifier, though the Gaussian provided the best balance between speed and accuracy of computation.)
+
+Next, to simulate a solution to (\ref{W2PDE}) with initial data $\rho_0(x)$, we consider a particle approximation of the initial data by a sum of dirac masses on a grid of spacing $h >0$ and width $R>0$, 
+\[ Q_R^h := \{ i \in \mathbb{Z}^d  : |ih| \leq R \} , \] weighted according to the value of the density at the grid points $m_i = \rho_0(ih)h^d $. Denoting by $\delta_{x_0}(x)$ a Dirac mass centered at $x_0 \in \Rd$, the discretized initial data is given by
+\begin{align} \label{initial data discretization}
+\rho_0^h(x) = \sum_{i \in Q_R^h} \delta_{ih}(x) m_i.
+\end{align}
+
+Then we consider the gradient flow of (\ref{regW2energy}) with initial data (\ref{initial data discretization}). As shown in Corollary \ref{particles well posed}, the unique solution of this gradient flow is
+\begin{align} \label{particle gradient flow solution}
+\rho^h(x,t) = \sum_{i \in Q_R^h} \delta_{x_i(t)}(x) m_i,
+\end{align}
+for $x_i(t)$ solving the following system of of ordinary differential equations,
+\begin{align} \label{particle odes}
+\begin{cases}
+\dot{x}_i = - \grad V(x_i) - \sum_{j \in Q_R^h} \grad W(x_i - x_j) m_j  - \sum_{j \in Q_R^h}   \left( \rho_\epsilon^h(x_j,t)^{m-2} -  \rho_\epsilon^h(x_i,t)^{m-2}  \right) \grad \varphi_\e(x_i - x_j) m_j  , \\
+x_i(0) = ih ,
+\end{cases}
+\end{align}
+where we abbreviate $\rho_\epsilon^h(x,t) := \sum_{k \in Q_R^h}\varphi_\e(x - x_k) m_k$.
+
+
+In this way, we reduce solving the partial differential equation (\ref{W2PDE}) to solving the above system of ordinary differential equations. This system of ODEs can be solved numerically in a variety of ways, and we observe nearly identical results independent of our choice of ODE solver. In analogy with previous work on blob methods {\color{Aquamarine} cite blob time discretization paper}, we find that the numerical error due to the choice of time discretization is of lower order than the error due to the regularization and spacial discretization. Consequently, for the purposes of the present work, we focus our attention on the latter and use the {\color{Aquamarine} lsoda solver from the SciPy library to solve the system (\ref{particle odes}) CITE.}
+
+
+{\color{Aquamarine} By Corollary cite particle solution converges to the solution of blah under these regularity assumptions.} Numerically, we observe the best accuracy with $\epsilon = h^{1- p}$, for $0 < p \ll 1$, as $h \to 0$. However, computational speed decreases as $p$ approaches 0. In the simulations that follow, we take $\epsilon = h^{0.99}$.
+
+Our numerical solution (\ref{particle gradient flow solution}) is given by a sum of Dirac masses. Consequently, for purposes of visualization and comparison to classical solutions of the PDE (\ref{W2PDE}), we consider a blob solution obtained by convolving the particle solution with a mollifier,
+\begin{align} \label{blob gradient flow solution}
+\rho_\epsilon^h(x,t) := \varphi_\e* \rho^h(x,t)  = \sum_{i \in Q_R^h}\varphi_\e(x - x_i) m_i
+\end{align}
+(Note that this definition agrees with the abbreviation we introduced in the system of ordinary differential equations (\ref{particle odes}).) By \cite[Lemma 7.1.10]{AGS},
+\[ W_2(\rho^h(\cdot, t), \rho^h_\epsilon(\cdot, t)) \leq \epsilon \int |x|^2 d \rho^h(x,t) = \epsilon \sum_{i \in Q^h_R} |x_i(t)|^2 m_i \xrightarrow{\epsilon \to 0} 0 . \]
+Consequently {\color{Aquamarine} our convergence result also applies to this blob solution.}
+
+We measure the accuracy of our numerical method with respect to three norms: the Wasserstein metric, the $L^1$ norm, and the $L^\infty$ norm. To compute the $L^1$ and $L^\infty$ errors, we take the difference between the exact solution and the blob solution (\ref{blob gradient flow solution}) and evaluate the discrete $L^1$ and $L^\infty$ errors using the following formulas:
+\[ \|f\|_{L^1(Q_R^h)} = \sum_{i \in Q_R^h} | f(ih) | h^d , \quad  \|f\|_{L^\infty(Q_R^h)} = \max_{i \in Q_R^h} | f(ih)| . \] 
+
+We compute the Wasserstein distance between the exact solution $\rho(x,t)$ and our particle solution $\rho^h(x,t)$ by discretizing the exact solution on $Q_R^h$ and then using the Python Optimal Transport library to compute the Wasserstein distance from $\rho^h(x,t)$ {\color{Aquamarine} cite specific function in POT.} While this approach does not give the exact Wasserstein distance between the exact and numerical solutions, when we compare this result to the exact formula for the Wasserstein distance in one dimension, we observe nearly identical results. Furthermore, this approximation allows us to compute the Wasserstein error in two dimensions, where there is no exact formula. {\color{Aquamarine} Technical point: in the log logs, we always discretize the exact solution with the smallest value of $h$.}
+
 %
 %
 %\begin{cor}[Discretization of $E_\epsilon$]
@@ -1367,7 +1418,138 @@ This completes the proof of equation (\ref{GFgoal1}) and gives the result.
 %\ee
 %\comment{The above equation is for $m =1$. We need to rewrite it for general $m$.}
 %\end{cor}
+
+
+\subsection{Simulations} \label{simulations}
+Using the method described in the previous section, we consider several numerical simulations of partial differential equations of the form (\ref{W2PDE}). We consider initial data given by linear combinations of Gaussian and Barenblatt profiles, which we denote as follows:
+\begin{align}   \label{barenblatt}
+\psi_{m}(x,\tau) = \begin{cases} \frac{1}{(4\pi \tau)^{d/2}} e^{-|x|^2/4 \tau} &\text{ for } m=1, \\
+ \tau^{-d\beta}(K - \kappa \tau^{-2\beta} |x|^2)_+^{1/(m-1)} & \text{ for } m>1. \end{cases}
+\end{align}
+with
+\begin{align*}
+\beta = \frac{1}{2+d(m-1)} \quad \text{ and } \quad \kappa = \frac{\beta}{2} \left( \frac{m-1}{m} \right) \end{align*}
+and $ K = K(m,d)$ is chosen so that $\int \psi_{m}(x,\tau) dx = 1$.
+
+ In Figure \ref{doublebumpdiffusion}, we compute solutions of the one dimensional heat and porous medium equations ($V=W=0$, $m=1,2,3$), illustrating the role of the diffusion exponent $m$. For $m=1$, the infinite speed of propagation of support of solutions to the heat equation is reflected both at the level of the density, for which the gap between the two bumps fills quickly, and also in the particle trajectories, which quickly spread to fill in areas of low mass. In contrast, for $m=2$ and $m=3$, we observe finite speed of propagation of support, as well as the emergence of Barenblatt profiles as time advances.
+
+
+In Figure \ref{exactnumericaldensity}, we compare exact and numerical solutions to the heat and porous medium equations. The top row shows the evolution of the density on a large spatial scale, at which the exact and numerical solutions are visually indistinguishable for $m=1$ and $m=2$. However, for $m=3$ the fat tails of the numerical simulation peel away from the exact solution at small times. The second row depicts the numerical simulations for $m=3$ on a smaller spatial scale, illustrating how the tails of the numerical simulation converge to the exact solution as the spacing of the computational grid is refined.
+
+In Figure \ref{1Dloglog}, we analyze the rate of convergence of our numerical scheme in one dimension. Specifically, we compute the error between numerical and exact solutions of the heat and porous medium equations ($m =1, 2,3$) with respect to the Wasserstein distance, $L^1$ norm, and $L^\infty$ norm and examine how this error scales with the grid spacing $h$.  Plotting the Wasserstein error, $L^1$ error, and $L^\infty$ error on a logarithmic scale, we observe that the error depends superlinearly on the grid spacing in all cases except the $L^\infty$ norm for $m=3$. This deterioration of the rate of $L^\infty$ convergence for $m=3$ is due to the sharp transition at the boundary of the exact solution. (See the second row of Figure \ref{exactnumericaldensity}.) 
+
+In Figure \ref{2Dloglog}, we analyze the rate of convergence of our method in two dimensions, again computing the error between numerical and exact solutions of the heat and porous medium equations $(m=1,2,3$) with respect to the Wasserstein distance $L^1$ norm, and $L^\infty$ norm. Plotting the Wasserstein error, $L^1$ error, and $L^\infty$ error on a logarithmic scale, we observe similar rates of convergence as in the one dimensional case (see Figure \ref{1Dloglog}), with the exception that the Wasserstein error now scales linearly with $h$ for all values of $m$. While in the one dimensional case, we observed superlinear convergence of the Wasserstein error for larger $m =2$ and $m=3$, we believe the slower convergence in the present case is due to other sources of error in our computation of the two dimensional Wasserstein distance that pollute the error coming from our numerical approximation of the PDEs. {\color{Aquamarine} other thoughts? }
+
+In Figure \ref{FPfig}, we simulate solutions to the nonlinear Fokker-Planck equation ($V(x) = x^2/2$, $W=0$, $m=2$) and consider the rate of convergence to the steady state of the equation, $\psi_2(x,0.25)$. ({\color{Aquamarine} Note slight disagreement with Burger-Carrillo-Wolfram, who had 0.25 instead of 1.)} In the top row, we compute the error between the numerical solution at time $t=1.2$ and the steady state with respect to the Wasserstein, $L^1$ and $L^\infty$ norms for various choices of grid spacing $h$. Again, plotting the dependence of the error with respect to $h$ on a logarithmic scale, we observe similar rates of convergence as in the case of the heat and porous medium equations (see Figure \ref{2Dloglog}).
+
+{\color{Aquamarine} Still need to finish Keller-Segel }
+
+
+
+\begin{figure}[!ht] 
+\centering
+\hspace*{-1.4cm}
+\includegraphics[scale=.95]{DoubleBumpHeatPME2.pdf}
+	\caption{Numerical simulation of the one dimensional heat equation ($m=1$) and porous medium equations ($m=2$ and $m=3$), with initial conditions given by a linear combination of Gaussians, $\rho_0(x) = 0.3 \psi_1(x+1,0.0225)+0.7 \psi_1(x-1, 0.0225)$. In the bottom row, we plot the evolution of the particle trajectories $x_i(t)$, and in the top row, we plot the evolution of the blob density $\rho^h_\epsilon(x,t)$. The grid spacing is $h = 0.02$. 
+}
+\label{doublebumpdiffusion}
+% k =10^{-3}, xmin = -2.5, xmax = 2.5
+%BlobDiffusionInteraction_Main(m=1,nu=1,p=0,q=0,Nx =5/.02,k=10**(-3), tvec= np.array([0,.05,.1,.15]), epspower = .99, rho0name='(.3)*sf.gaussian(.15,x+1,y)+(.7)*sf.gaussian(.15,x-1,y)',dim=1,PlotOrNot = 'Y')
+\end{figure}
+
+
+
+
+\begin{figure}[!ht] 
+\centering
+\textbf{Exact vs. Numerical Solution} \\
+$h = 0.02$, varying $m$ \\ \smallskip
+\hspace*{-1.4cm}
+\includegraphics[scale=.95]{ExactVsApprox2.pdf}
+
+{\footnotesize Position} \hspace{4.3in} \
+
+\textbf{Exact vs. Numerical Solution} \\
+varying $h$, $m = 3$ \\ \smallskip
+\hspace*{-1.35cm}
+\includegraphics[scale=.95]{PME3varyh2.pdf}
+{\footnotesize Position} \hspace{4.3in} \
+	\caption{We compare exact and numerical solutions to the heat ($m=1)$ and porous medium equations ($m=2,3$), with initial data given by a Gaussian ($m=1$) or Barenblatt ($m=2, 3$) function with scaling $\tau = 0.0625$. The numerical solutions are plotted with thick lines, and the exact solutions are plotted with thin lines.}
+	\label{exactnumericaldensity}
+% k =10^{-3}, xmin = -2.5, xmax = 2.5
+%BlobDiffusionInteraction_Main(m=3,nu=1,p=0,q=0,Nx =5/.02,k=10**(-3), tvec= np.array([0,.05,.1,.15]), epspower = .99, rho0name='sf.barenblatt(3,0.0625,x,y)',dim=1,PlotOrNot = 'Y')
+% k =10^{-3}, xmin = -2.5, xmax = 2.5
+%BlobDiffusionInteraction_Main(m=3,nu=1,p=0,q=0,Nx =5/.005,k=10**(-3), tvec= np.array([0,.05,.1,.15]), epspower = .99, rho0name='sf.barenblatt(3,0.0625,x,y)',dim=1,PlotOrNot = 'Y')
+\end{figure}
+
+
+
+\begin{figure}[!ht]
+\centering
+\textbf{Convergence Analysis: One Dimensional Diffusion}
+\hspace*{-1.2cm}
+\includegraphics[scale=1]{LogLog1D.pdf}
+	\caption{We compute the error between the exact and numerical solutions to the one dimensional heat and porous medium equations shown in Figure \ref{exactnumericaldensity} at time $t = 0.05$ for various choices of grid spacing $h$. We plot the error's dependence on $h$ with a logarithmic scale and compute the slope of the line of best fit to determine the scaling relationship between the error and $h$. \label{1Dloglog}}
+% k =10^{-3}, xmin = -2.5, xmax = 2.5
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\textbf{Convergence Analysis: Two Dimensional Diffusion}
+\hspace*{-1.2cm}
+\includegraphics[scale=1]{LogLog2D.pdf}
+	\caption{We compute the error between the exact and numerical solutions to the two dimensional heat and porous medium equations  for various choices of grid spacing $h$, with initial data given by a Gaussian ($m=1$) or Barenblatt ($m=2, 3$) function with scaling $\tau = 0.0625$ at time $t = 0.05$. We plot the error's dependence on $h$ with a logarithmic scale and compute the slope of the line of best fit to determine the scaling relationship between the error and $h$.} \label{2Dloglog}
+% k =10^{-3}, xmin = -2.5, xmax = 2.5
+\end{figure}
+
+
+\begin{figure}[!ht]
+\centering
+\textbf{Fokker-Planck  \\
+Rate of Convergence to Steady State}
+\hspace*{-1.6cm}
+\includegraphics[scale=.9]{FPSteadyStateLogLog2.pdf}
+
+\medskip
+
+\textbf{Density: Barenblatt initial data}
+
+ t = 0.0 \hspace{1.5in} t = 0.6 \hspace{1.5in} t = 1.2 \hspace{.05in}
+
+\hspace*{-1.5cm}
+\includegraphics[scale=.95]{FPden0.pdf}
+\includegraphics[scale=.95]{FPdenp6.pdf}
+\includegraphics[scale=.95]{FPden1p2.pdf}
+
+\medskip
+
+\textbf{Density: Double bump initial data}
+
+ t = 0.0 \hspace{1.5in} t = 0.5 \hspace{1.5in} t = 2.0 \hspace{.05in}
+
+\hspace*{-1.5cm}
+\includegraphics[scale=.95]{FPCden0.pdf}
+\includegraphics[scale=.95]{FPCdenp5.pdf}
+\includegraphics[scale=.95]{FPCden2.pdf}
+	\caption{Top row: We compute the error between numerical solutions to the two dimensional Fokker-Planck equation  (\ref{FPeqn}) and the steady state of the equation, $\psi_2(x,0.25)$. We consider solutions with Barenblatt initial data ($m=2$, $\tau = 0.15$) at time $t = 1.2$ for varying choices of grid spacing $h$. As in figures \ref{LogLog1D} and \ref{LogLog2D}, we plot the error's dependence on $h$ with a logarithmic scale and compute the slope of the line of best fit to determine the scaling relationship between the error and $h$.  Middle row: We plot the solution of the Fokker-Planck equation at times t=0.0, 0.6, and 1.2, showing evolution to the steady state with the same Barenblatt initial data as above. Bottom row:  We plot the solution of the Fokker-Planck equation at times t=0.0, 0.5, and 2.0, showing evolution to the steady state with double bump initial data given by a linear combination of Barenblatts, $\rho_0(x) = 0.7\psi_2(x-(1.25,0),0.1)+0.3\psi_2(x+(1.25,0),0.1)$.  \label{FPfig}
+	.}
+%xmin = -2.5, xmax = 2.5
+%BlobDiffusionInteraction_LogLogError(m=2,nu=1,p=0,q =0,hvec=5/np.array([50,60,70,80,90,100,120,140,160,180,200]), k = 10**(-4), tvec = np.array([0,1.2]), epspower = .99, rho0name = 'sf.barenblatt(2,.15,x,y)',dim=2)
+\end{figure}
+
+
+\begin{figure}[!ht]
+\centering
+\textbf{Keller-Segel  \\
+Evolution of Second Moment}
+\end{figure}
+
+
+\textbf{Acknowledgements:} The authors would like to thank Andrew Bernoff, Dejan Slep\^cev, Yanghong Huang, Fangbo Zhang, Andrea Bertozzi, Eric Carlen, and Inwon Kim for many interesting discussions.
+
 %
+%\subsection{The method}
+%%
 %
 %\subsection{Simulations}
 %
